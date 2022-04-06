@@ -11,7 +11,7 @@ jobs:
       run: pipx install poetry
     - uses: dmitry-shibanov/setup-python@v-dmshib/fix-poetry-version
       with:
-        python-version: 'pypy-3.7'
+        python-version: 'pypy-3.6'
         cache: 'poetry'
     - run: |
         poetry install
