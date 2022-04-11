@@ -4,14 +4,20 @@ on: [push, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    name: Setup Python ${{ matrix.python-version }} ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-18.04]
+        python-version: ['pypy-3.6', 'pypy-3.7', 3.7, '3.10', '3.11.0-alpha.6']
     steps:
     - uses: actions/checkout@v3
     - name: Install poetry
       run: pipx install poetry
     - uses: dmitry-shibanov/setup-python@v-dmshib/fix-poetry-version
       with:
-        python-version: 'pypy-3.6'
+        python-version: ${{ matrix.python-version }}
         cache: 'poetry'
     - run: |
         poetry install
