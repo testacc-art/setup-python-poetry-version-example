@@ -16,10 +16,13 @@ jobs:
     - name: Install poetry
       run: pipx install poetry
     - uses: dmitry-shibanov/setup-python@v-dmshib/fix-poetry-version
+      id: python-poetry
       with:
         python-version: ${{ matrix.python-version }}
         cache: 'poetry'
-    - run: |
+    - name: poetry install dependencies
+      if: steps.python-poetry.outputs.cache-hit != 'true'
+      run: |
         poetry install
     - run: python -V
     - run: poetry run python -V
